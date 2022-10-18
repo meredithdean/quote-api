@@ -19,7 +19,7 @@ app.get('/api/quotes/random', (req,res,next) => {
 
 app.get('/api/quotes', (req,res,next) => {
     if(req.query.person !== undefined) {
-        const quotesByPerson = quotes.filter(quote => quote.person === req.query.person)
+        const quotesByPerson = quotes.filter(quote => quote.person === req.query.person);
         res.send({
             quotes: quotesByPerson
         })
@@ -30,4 +30,15 @@ app.get('/api/quotes', (req,res,next) => {
     }
 });
 
-console.log(app.get)
+app.post('/api/quotes', (req,res,next) => {
+    const newQuote = {
+        quote: req.query.quote,
+        person: req.query.person
+    }
+    if (newQuote) {
+        quotes.push(newQuote);
+        res.send({quote: newQuote});
+    } else {
+        res.status(400).send();
+    }
+})
